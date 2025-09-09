@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carousel</title>
+  <style>
+    *{
+      box-sizing: border-box;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    #primaryCarouselContainer{
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      margin: 0;
+      background: #f5f5f5;
+      overflow: hidden;
+    }
+    #carousel-container{  
+      position: relative;
+      width: 65rem;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    #carousel{
+      display: flex;
+      transition: transform 800ms ease-in-out;
+    }
+    .carouselItem{
+      flex: 0 0 100%;
+      padding: 0 2rem;
+    }
+    .carouselImage{
+      border-radius: 8px;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+    .btn{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      font-size: 28pt;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #prev{
+      left: 10px;
+      z-index: 1;
+    }
+    #next{
+      right: 10px;
+      z-index: 1;
+    }
+    #dots{
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+    .dot{
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: background-color 300ms;
+    }
+    .dot.active{
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+  <nav>This is the Navigation Bar</nav>
+    <hr>
+  <div id="primaryCarouselContainer">
+    <div id="carousel-container">
+      <div id="carousel">
+        <div class="carouselItem">
+          <img class="carouselImage" src="Asset 8.svg" alt="Slide 1">
+        </div>
+        <div class="carouselItem">
+          <img class="carouselImage" src="Asset 9.svg" alt="Slide 2">
+        </div>
+        <div class="carouselItem">
+          <img class="carouselImage" src="Asset 10.svg" alt="Slide 3">
+        </div>
+      </div>
+      <div class="btn" id="prev">‹</div>
+      <div class="btn" id="next">›</div>
+      <div id="dots"></div>
+    </div>
+  </div>
+  <p>This is the Text that will be placed below carousel</p>
+  <a href="Text Carousel.html">Go to other carousel</a>
+  <script>
+    const carousel = document.getElementById("carousel");
+    const items = document.querySelectorAll(".carouselItem");
+    const dotsContainer = document.getElementById("dots");
+    const totalItems = items.length;
+    let index = 0;
+
+    for (let i = 0; i < totalItems; i++){
+      const dot = document.createElement("div");
+      dot.classList.add("dot");
+      if (i === 0) dot.classList.add("active");
+      dot.addEventListener("click", () => showSlide(i))
+      dotsContainer.appendChild(dot);
+    }
+    
+    const dots = document.querySelectorAll(".dot");
+    
+    function updateDots() {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index)
+      });
+    }
+
+    function showSlide(i){
+      index = (i + totalItems) % totalItems
+      carousel.style.transform = `translateX(-${index * 100}%)`;
+      updateDots()
+    }
+    
+    document.getElementById("next").onclick = () => {
+      showSlide(index + 1)
+    }
+    document.getElementById("prev").onclick = () => {
+      showSlide(index - 1)
+    }    
+  </script>
+</body>
+</html>
+
+
